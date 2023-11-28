@@ -1,32 +1,26 @@
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Main {
     public static void main(String[] args) {
 
-//        Şehir bilgilerini HashMap e kaydediyoruz.
-        HashMap<String, Sehir> sehirler = new HashMap<>();
+//        araç seçin -> Otobüs 1 otobü 2 diye selectler.
+//        tarih ve saat seçiniz.
+//        güzergah seçiniz. -> Demiryolu1 falan diye select ler olacak.
 
-        sehirler.put("İstanbul", new Sehir("İstanbul", 50, 100, 300));
-        sehirler.put("Kocaeli", new Sehir("Kocaeli", 100, 200, 400));
-        sehirler.put("Ankara", new Sehir("Ankara", 300, 400, -1));
-        sehirler.put("Eskişehir", new Sehir("Eskişehir", 150, 100, -1));
-        sehirler.put("Konya", new Sehir("Konya", 300, 250, -1));
+        TripPrices ulasim = new TripPrices();
+        int istanbulKocaeliKarayolu = ulasim.getUcret(TransportationType.HAVAYOLU, Cities.ISTANBUL, Cities.KONYA);
 
-        String sehir = "İstanbul";
-        Sehir sehirBilgileri = sehirler.get(sehir);
+        if (istanbulKocaeliKarayolu != -1) {
+            System.out.println("Ulaşım Ücreti: " + istanbulKocaeliKarayolu);
+        }
 
-        System.out.println(sehirBilgileri.getIsim() + " şehrinin ücretleri:");
-        System.out.println("Karayolu: " + sehirBilgileri.getKarayoluUcreti());
-        System.out.println("Demiryolu: " + sehirBilgileri.getDemiryoluUcreti());
-        System.out.println("Havayolu: " + sehirBilgileri.getHavayoluUcreti());
-
-
-//        Admin admin =  Admin.getAdminInfo();
-//        String adminUsername = admin.getUsername();
         IDAndPasswords idAndPasswords = new IDAndPasswords();
+        ArrayList<Company> companyList = idAndPasswords.getCompanies();
+
 //        Send the hashmap to loginPage
-        LoginPage loginPage = new LoginPage(idAndPasswords.getLoginInfo());
+//        LoginPage loginPage = new LoginPage(idAndPasswords.getLoginInfo(), companyList);
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -43,7 +37,7 @@ public class Main {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                LoginPage loginPage = new LoginPage(idAndPasswords.getLoginInfo());
+                LoginPage loginPage = new LoginPage(idAndPasswords.getLoginInfo(), companyList);
                 loginPage.setVisible(true);
             }
         });

@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.ArrayList;
 
 public class LoginPage extends JFrame {
 
@@ -14,49 +15,66 @@ public class LoginPage extends JFrame {
     private JPanel panel1;
     private JLabel messageLabel;
 
-    HashMap <String, String> loginInfo = new HashMap<String,String>();
+    private HashMap<String, String> loginInfo;
+    private ArrayList<Company> companyList;
 
-//    constructor
-    LoginPage(HashMap<String,String> originalLoginInfo){
-
-//        Create a copy of loginInfo
-        loginInfo = originalLoginInfo;
+    // constructor
+    public LoginPage(HashMap<String, String> originalLoginInfo, ArrayList<Company> companyList) {
+        this.loginInfo = originalLoginInfo;
+        this.companyList = companyList;
 
         add(panel1);
-        setSize(400,400);
+        setSize(400, 400);
         setTitle("Giriş Formu");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-//        Login Button Click event listener
+        // Login Button Click event listener
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if(e.getSource() == loginButton){
+                if (e.getSource() == loginButton) {
                     String username = usernameField.getText();
                     String password = String.valueOf(passwordField1.getPassword());
 
-                    if(loginInfo.containsKey(username)){
-                        if(loginInfo.get(username).equals(password) && loginInfo.get(username) == "Ece"){
-                    //   login is successfull as an ADMIN
+                    if (loginInfo.containsKey(username)) {
+                        // IF USER IS AN ADMIN
+                        if (loginInfo.get(username).equals(password) && loginInfo.get(username).equals("Ece")) {
+                            // login is successful as an ADMIN
                             AdminPanel adminPanel = new AdminPanel();
                             adminPanel.setVisible(true);
                             dispose();
                             System.out.println("Giriş Başarılı!");
                             System.out.println("Kullanıcı: " + username);
                         } else {
-//                            messageLabel.setVisible(true);
-//                            messageLabel.setForeground(Color.red);
-//                            messageLabel.setText("Geçersiz Kullanıcı!");
-                            CompanyPanel companyPanel = new CompanyPanel();
-                            companyPanel.setVisible(true);
-                            dispose();
-                            System.out.println("Giriş Başarılı!");
-                            System.out.println("Kullanıcı: " + username);
+                            // Determine the logged-in company
+                            Company loggedInCompany = getLoggedInCompany(username);
+
+                            if (loggedInCompany != null) {
+                                // login is successful as a COMPANY
+                                CompanyPanel companyPanel = new CompanyPanel(loggedInCompany);
+                                companyPanel.setVisible(true);
+                                dispose();
+                                System.out.println("Giriş Başarılı!");
+                                System.out.println("Kullanıcı: " + username);
+                            } else {
+                                // User is not associated with any company
+                                // Handle the situation accordingly
+                            }
                         }
                     }
                 }
             }
         });
+    }
+
+    // Giriş yapan kullanıcının ait olduğu şirketi belirle
+    private Company getLoggedInCompany(String username) {
+        for (Company company : companyList) {
+            if (company.getUsername().equals(username)) {
+                return company;
+            }
+        }
+        return null; // Kullanıcı bulunamazsa null dönebilirsiniz.
     }
 }

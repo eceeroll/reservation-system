@@ -7,8 +7,10 @@ import javax.swing.table.DefaultTableModel;
 
 public class CompanyPanel extends JFrame {
     private ArrayList<Vehicle> aracListesi;
+    private Company loggedInCompany;
 
-    public CompanyPanel() {
+
+    public CompanyPanel(Company loggedInCompany) {
         aracListesi = new ArrayList<>();
         setTitle("Firma Paneli");
         setSize(400, 300);
@@ -36,8 +38,6 @@ public class CompanyPanel extends JFrame {
                 showAracListeleForm();
             }
         });
-
-
 
         add(panel);
     }
@@ -93,13 +93,13 @@ public class CompanyPanel extends JFrame {
 
                     switch (aracTur) {
                         case "Otobüs":
-                            yeniArac = new Bus(aracNo, koltukSayisi, yakitTur);
+                            yeniArac = new Bus(aracNo, koltukSayisi, yakitTur, loggedInCompany);
                             break;
                         case "Tren":
-                            yeniArac = new Train(aracNo, koltukSayisi,yakitTur);
+                            yeniArac = new Train(aracNo, koltukSayisi,yakitTur, loggedInCompany);
                             break;
                         case "Uçak":
-                            yeniArac = new Airplane(aracNo, koltukSayisi,yakitTur);
+                            yeniArac = new Airplane(aracNo, koltukSayisi,yakitTur, loggedInCompany);
                             break;
                         default:
                             break;
@@ -107,6 +107,7 @@ public class CompanyPanel extends JFrame {
                     if (yeniArac != null) {
                         aracListesi.add(yeniArac);
                         JOptionPane.showMessageDialog(aracEkleFrame, "Araç başarıyla eklendi!");
+                        System.out.println("Eklenen Araç : " + yeniArac.getCompany());
                     } else {
                         JOptionPane.showMessageDialog(aracEkleFrame, "Geçersiz araç türü!");
                     }

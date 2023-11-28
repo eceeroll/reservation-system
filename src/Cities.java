@@ -1,0 +1,3 @@
+public enum Cities {
+    ISTANBUL, KOCAELI, ANKARA, BILECIK, ESKISEHIR, KONYA
+}
