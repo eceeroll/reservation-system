@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 
 public class CompanyPanel extends JFrame {
     private ArrayList<Vehicle> aracListesi;
@@ -20,12 +21,23 @@ public class CompanyPanel extends JFrame {
         JButton aracEkleButton = new JButton("Araç Ekle");
         panel.add(aracEkleButton);
 
+        JButton aracListeleButton = new JButton("Araçları Listele");
+        panel.add(aracListeleButton);
+
         aracEkleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showAracEkleForm();
             }
         });
+        aracListeleButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAracListeleForm();
+            }
+        });
+
+
 
         add(panel);
     }
@@ -47,7 +59,13 @@ public class CompanyPanel extends JFrame {
 
         JLabel aracTurLabel = new JLabel("Araç Türü:");
         String[] aracTurOptions = {"Otobüs", "Tren", "Uçak"};
+
         JComboBox<String> aracTurComboBox = new JComboBox<>(aracTurOptions);
+
+        JLabel yakitTuruLabel = new JLabel("Yakıt Türü");
+        String[] yakitTuruOptions = {"Benzin", "Motorin", "Elektrik","Gaz"};
+
+        JComboBox<String> yakitTuruComboBox = new JComboBox<>(yakitTuruOptions);
 
         JButton kaydetButton = new JButton("Kaydet");
 
@@ -57,6 +75,8 @@ public class CompanyPanel extends JFrame {
         panel.add(aracNoField);
         panel.add(aracTurLabel);
         panel.add(aracTurComboBox);
+        panel.add(yakitTuruLabel);
+        panel.add(yakitTuruComboBox);
         panel.add(new JLabel("")); // Boşluk eklemek için
         panel.add(kaydetButton);
 
@@ -67,23 +87,23 @@ public class CompanyPanel extends JFrame {
                     int aracNo = Integer.parseInt(aracNoField.getText());
                     int koltukSayisi = Integer.parseInt(koltukSayisiField.getText());
                     String aracTur = (String) aracTurComboBox.getSelectedItem();
+                    String yakitTur = (String) yakitTuruComboBox.getSelectedItem();
 
                     Vehicle yeniArac = null;
 
                     switch (aracTur) {
                         case "Otobüs":
-                            yeniArac = new Bus(aracNo, koltukSayisi);
+                            yeniArac = new Bus(aracNo, koltukSayisi, yakitTur);
                             break;
                         case "Tren":
-                            yeniArac = new Train(aracNo, koltukSayisi);
+                            yeniArac = new Train(aracNo, koltukSayisi,yakitTur);
                             break;
                         case "Uçak":
-                            yeniArac = new Airplane(aracNo, koltukSayisi);
+                            yeniArac = new Airplane(aracNo, koltukSayisi,yakitTur);
                             break;
                         default:
                             break;
                     }
-
                     if (yeniArac != null) {
                         aracListesi.add(yeniArac);
                         JOptionPane.showMessageDialog(aracEkleFrame, "Araç başarıyla eklendi!");
@@ -93,14 +113,36 @@ public class CompanyPanel extends JFrame {
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(aracEkleFrame, "Araç No ve Koltuk Sayısı sayı olmalıdır!");
                 }
-
-                aracEkleFrame.dispose(); // Formu kapat
+                aracEkleFrame.dispose();
             }
         });
-
 
         aracEkleFrame.add(panel);
         aracEkleFrame.setVisible(true);
     }
 
+    private void showAracListeleForm(){
+        JFrame aracListeleFrame = new JFrame("Araç Listesi");
+        aracListeleFrame.setSize(600, 400);
+        aracListeleFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        aracListeleFrame.setLocationRelativeTo(this);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+
+        String[] columnNames = {"Araç No", "Araç Türü", "Koltuk Sayısı", "Yakıt Türü"};
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+
+        for (Vehicle arac : aracListesi) {
+            String aracTur = arac.getClass().getSimpleName();
+            model.addRow(new Object[]{arac.getAracNo(), aracTur, arac.getKoltukSayisi(), arac.getYakitTuru()});
+        }
+
+        JTable aracTable = new JTable(model);
+        JScrollPane  scrollPane = new JScrollPane(aracTable);
+        panel.add(scrollPane, BorderLayout.CENTER);
+
+        aracListeleFrame.add(panel);
+        aracListeleFrame.setVisible(true);
+    }
 }
