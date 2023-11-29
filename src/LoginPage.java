@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class LoginPage extends JFrame {
 
@@ -39,7 +40,7 @@ public class LoginPage extends JFrame {
 
                     if (loginInfo.containsKey(username)) {
                         // IF USER IS AN ADMIN
-                        if (loginInfo.get(username).equals(password) && loginInfo.get(username).equals("Ece")) {
+                        if (Objects.equals(loginInfo.get(username), password) && "ece".equals(username)) {
                             // login is successful as an ADMIN
                             AdminPanel adminPanel = new AdminPanel();
                             adminPanel.setVisible(true);

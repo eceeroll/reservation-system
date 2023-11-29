@@ -11,6 +11,9 @@ public class CompanyPanel extends JFrame {
 
 
     public CompanyPanel(Company loggedInCompany) {
+
+        System.out.println(loggedInCompany.getName());
+
         aracListesi = new ArrayList<>();
         setTitle("Firma Paneli");
         setSize(400, 300);
@@ -29,7 +32,7 @@ public class CompanyPanel extends JFrame {
         aracEkleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                showAracEkleForm();
+                showAracEkleForm(loggedInCompany);
             }
         });
         aracListeleButton.addActionListener(new ActionListener() {
@@ -42,7 +45,7 @@ public class CompanyPanel extends JFrame {
         add(panel);
     }
 
-    private void showAracEkleForm() {
+    private void showAracEkleForm(Company company) {
         JFrame aracEkleFrame = new JFrame("Araç Ekle");
         aracEkleFrame.setSize(300, 200);
         aracEkleFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -93,13 +96,13 @@ public class CompanyPanel extends JFrame {
 
                     switch (aracTur) {
                         case "Otobüs":
-                            yeniArac = new Bus(aracNo, koltukSayisi, yakitTur, loggedInCompany);
+                            yeniArac = new Bus(aracNo, koltukSayisi, yakitTur, company);
                             break;
                         case "Tren":
-                            yeniArac = new Train(aracNo, koltukSayisi,yakitTur, loggedInCompany);
+                            yeniArac = new Train(aracNo, koltukSayisi,yakitTur, company);
                             break;
                         case "Uçak":
-                            yeniArac = new Airplane(aracNo, koltukSayisi,yakitTur, loggedInCompany);
+                            yeniArac = new Airplane(aracNo, koltukSayisi,yakitTur, company);
                             break;
                         default:
                             break;
@@ -107,7 +110,7 @@ public class CompanyPanel extends JFrame {
                     if (yeniArac != null) {
                         aracListesi.add(yeniArac);
                         JOptionPane.showMessageDialog(aracEkleFrame, "Araç başarıyla eklendi!");
-                        System.out.println("Eklenen Araç : " + yeniArac.getCompany());
+                        System.out.println("Eklenen Araç : " + yeniArac.getCompany().getName());
                     } else {
                         JOptionPane.showMessageDialog(aracEkleFrame, "Geçersiz araç türü!");
                     }

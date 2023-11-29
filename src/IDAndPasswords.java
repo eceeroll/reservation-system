@@ -13,7 +13,7 @@ public class IDAndPasswords {
         vehiclesCompanyA.add("Tren");
 
         //    Admin Info:
-        Admin admin = new Admin("Ece", "Ece0104");
+        Admin admin = new Admin("ece", "ece0104");
         //    Companies Info:
         Company companyA = new Company("Company_A", "A123", "A Taşımacılık", vehiclesCompanyA);
         Company companyB = new Company("Company_B", "B123","B Taşımacılık", vehiclesCompanyA);
