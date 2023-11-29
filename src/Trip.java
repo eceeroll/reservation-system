@@ -7,21 +7,15 @@ public class Trip {
     Company company;
     Vehicle vehicle;
     Route route;
-    private Date departureDate;
-    private Time departureTime;
-    private Date arrivalDate;
-    private Time arrivalTime;
+    private int departureDate; // tarih gün olarak tutulacak. ( 4-10 aralık )
     private int price;
 
-    public Trip(int trip_id, Company company, Vehicle vehicle, Route route, Date departureDate, Time departureTime, Date arrivalDate, Time arrivalTime, int price) {
+    public Trip(int trip_id, Company company, Vehicle vehicle, Route route, int departureDate, Date arrivalDate, Time arrivalTime, int price) {
         this.trip_id = trip_id; // random sayı ataması ekle.
         this.company = company;
         this.vehicle = vehicle;
         this.route = route;
         this.departureDate = departureDate;
-        this.departureTime = departureTime;
-        this.arrivalDate = arrivalDate;
-        this.arrivalTime = arrivalTime;
         this.price = price;
     }
 
@@ -59,36 +53,12 @@ public class Trip {
         this.route = route;
     }
 
-    public Date getDepartureDate() {
+    public int getDepartureDate() {
         return departureDate;
     }
 
-    public void setDepartureDate(Date departureDate) {
+    public void setDepartureDate(int departureDate) {
         this.departureDate = departureDate;
-    }
-
-    public Time getDepartureTime() {
-        return departureTime;
-    }
-
-    public void setDepartureTime(Time departureTime) {
-        this.departureTime = departureTime;
-    }
-
-    public Date getArrivalDate() {
-        return arrivalDate;
-    }
-
-    public void setArrivalDate(Date arrivalDate) {
-        this.arrivalDate = arrivalDate;
-    }
-
-    public Time getArrivalTime() {
-        return arrivalTime;
-    }
-
-    public void setArrivalTime(Time arrivalTime) {
-        this.arrivalTime = arrivalTime;
     }
 
     public int getPrice() {

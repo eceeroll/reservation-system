@@ -97,7 +97,7 @@ public class AdminPanel extends JFrame {
             selectedVehicles.add("Uçak");
         }
 
-        Company newCompany = new Company(companyName, "123", companyName, selectedVehicles);
+        Company newCompany = new Company(companyName, "123", companyName, selectedVehicles, new ArrayList<Vehicle>());
 
         companyList.add(newCompany);
 
@@ -106,7 +106,6 @@ public class AdminPanel extends JFrame {
         System.out.println("Ekleme işlemi başarılı! Güncellenen firmalar listesi: ");
         for (Company company : companyList) {
             System.out.println(company.getName());
-            System.out.println(company.getVehicles());
         }
 
         // işlem başarılı:

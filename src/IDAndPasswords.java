@@ -15,8 +15,8 @@ public class IDAndPasswords {
         //    Admin Info:
         Admin admin = new Admin("ece", "ece0104");
         //    Companies Info:
-        Company companyA = new Company("Company_A", "A123", "A Taşımacılık", vehiclesCompanyA);
-        Company companyB = new Company("Company_B", "B123","B Taşımacılık", vehiclesCompanyA);
+        Company companyA = new Company("Company_A", "A123", "A Taşımacılık", vehiclesCompanyA, new ArrayList<Vehicle>());
+        Company companyB = new Company("Company_B", "B123","B Taşımacılık", vehiclesCompanyA, new ArrayList<Vehicle>());
         //    Company companyC = new Company("Company_C", "C123", "C Taşımacılık");
 
         companyList.add(companyA);

@@ -4,16 +4,22 @@ public abstract class Vehicle {
     int koltukSayisi;
     String yakitTuru;
     Company company;
+    String aracIsmi;
 
-    public Vehicle(int aracNo, int koltukSayisi, String yakitTuru, Company company ){
+    public Vehicle(int aracNo, int koltukSayisi, String yakitTuru, Company company, String aracIsmi ){
         this.aracNo = aracNo;
         this.koltukSayisi = koltukSayisi;
         this.yakitTuru = yakitTuru;
         this.company = company;
+        this.aracIsmi = aracIsmi;
     }
 
     public Company getCompany() {
         return company;
+    }
+
+    public String getAracIsmi(){
+        return aracIsmi;
     }
 
     public int getAracNo() {

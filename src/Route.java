@@ -1,6 +1,8 @@
 // Sefer bilgilerini içeren class. Kalkış noktası, varış noktası, ulaşım türü, gidilen mesafe ve güzergah
 // gibi bilgileri içermelidir.
 
+import java.util.ArrayList;
+
 public class Route {
 
     private TransportationType yolTuru;
@@ -8,8 +10,12 @@ public class Route {
     private Cities arrivalCity;
     private Cities[] stations;
     private int distance;
+    private static ArrayList<Route> allRoutes = new ArrayList<>();
+    private String routeName;
 
-    public Route(TransportationType yolTuru, Cities departureCity, Cities arrivalCity, Cities[] stations, int distance) {
+
+    public Route(String routeName, TransportationType yolTuru, Cities departureCity, Cities arrivalCity, Cities[] stations, int distance) {
+        this.routeName = routeName;
         this.yolTuru = yolTuru;
         this.departureCity = departureCity;
         this.arrivalCity = arrivalCity;
@@ -17,22 +23,34 @@ public class Route {
         this.distance = distance;
     }
 
-        // SEFERLERİ OLUŞTURALIM.
-        Route demiryolu1 = new Route(TransportationType.DEMIRYOLU, Cities.ISTANBUL, Cities.ANKARA,
-        new Cities[]{Cities.KOCAELI, Cities.BILECIK, Cities.ESKISEHIR}, 750);
-        Route demiryolu2 = new Route(TransportationType.DEMIRYOLU, Cities.ISTANBUL, Cities.KONYA,
-        new Cities[]{Cities.KOCAELI, Cities.BILECIK, Cities.ESKISEHIR}, 900);
-        Route karayolu1 = new Route(TransportationType.KARAYOLU, Cities.ISTANBUL, Cities.ANKARA,
-        new Cities[]{Cities.KOCAELI}, 1500);
-        Route karayolu2 = new Route(TransportationType.KARAYOLU, Cities.ISTANBUL, Cities.KONYA,
-        new Cities[]{Cities.KOCAELI, Cities.ESKISEHIR}, 1200);
-        Route havayolu1 = new Route(TransportationType.HAVAYOLU, Cities.ISTANBUL, Cities.KONYA,
-        new Cities[]{}, 600);
-        Route havayolu2 = new Route(TransportationType.HAVAYOLU, Cities.ISTANBUL, Cities.ANKARA,
-        new Cities[]{}, 500);
+//    SEFERLERİN OLUŞTURULMASI VE ARRAYLIST OLUŞTURULMASI
+    static {
+        Route demiryolu1 = new Route("Demiryolu Güzergah 1" ,TransportationType.DEMIRYOLU, Cities.ISTANBUL, Cities.ANKARA,
+                new Cities[]{Cities.KOCAELI, Cities.BILECIK, Cities.ESKISEHIR}, 750);
+        Route demiryolu2 = new Route("Demiryolu Güzergah 2" ,TransportationType.DEMIRYOLU, Cities.ISTANBUL, Cities.KONYA,
+                new Cities[]{Cities.KOCAELI, Cities.BILECIK, Cities.ESKISEHIR}, 900);
+        Route karayolu1 = new Route("Karayolu Güzergah 1",TransportationType.KARAYOLU, Cities.ISTANBUL, Cities.ANKARA,
+                new Cities[]{Cities.KOCAELI}, 1500);
+        Route karayolu2 = new Route("Karayolu Güzergah 2", TransportationType.KARAYOLU, Cities.ISTANBUL, Cities.KONYA,
+                new Cities[]{Cities.KOCAELI, Cities.ESKISEHIR}, 1200);
+        Route havayolu1 = new Route("Havayolu Güzergah 1",TransportationType.HAVAYOLU, Cities.ISTANBUL, Cities.KONYA,
+                new Cities[]{}, 600);
+        Route havayolu2 = new Route("Havayolu Güzergah 2",TransportationType.HAVAYOLU, Cities.ISTANBUL, Cities.ANKARA,
+                new Cities[]{}, 500);
 
+        allRoutes.add(demiryolu1);
+        allRoutes.add(demiryolu2);
+        allRoutes.add(karayolu1);
+        allRoutes.add(karayolu2);
+        allRoutes.add(havayolu1);
+        allRoutes.add(havayolu2);
+    }
 
 //        Getter Methods
+    public String getRouteName(){
+        return routeName;
+    }
+
     public Cities getDepartureCity() {
         return departureCity;
     }
@@ -41,6 +59,9 @@ public class Route {
         return arrivalCity;
     }
 
+    public static ArrayList<Route> getAllRoutes(){
+        return allRoutes;
+    }
     public int getDistance() {
         return distance;
     }
