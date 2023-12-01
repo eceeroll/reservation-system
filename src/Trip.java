@@ -1,7 +1,11 @@
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Trip {
+
+//    Bütün firmalara ait bütün seferleri tutan bir ArrayList tanımlıyoruz.
+private static ArrayList<Trip> allTrips = new ArrayList<>();
 
     private int trip_id;
     Company company;
@@ -10,18 +14,30 @@ public class Trip {
     private int departureDate; // tarih gün olarak tutulacak. ( 4-10 aralık )
     private int price;
 
-    public Trip(int trip_id, Company company, Vehicle vehicle, Route route, int departureDate, Date arrivalDate, Time arrivalTime, int price) {
-        this.trip_id = trip_id; // random sayı ataması ekle.
+    public Trip(int trip_id, Company company, Vehicle vehicle, Route route, int departureDate, int price) {
+        this.trip_id = trip_id; // random sayı ataması
         this.company = company;
         this.vehicle = vehicle;
         this.route = route;
         this.departureDate = departureDate;
         this.price = price;
+
+        // Her yeni sefer oluşturulduğunda, allTrips listesine eklenir
+        allTrips.add(this);
+
+        // Ve aynı zamanda, seferi oluşturan firmanın companyTrips listesine de eklenir
+        if (company != null) {
+            company.addTripToCompany(this);
+        }
+    }
+
+    public static ArrayList<Trip> getAllTrips() {
+        return allTrips;
     }
 
 //    Getters and Setters
 
-    public int getTrip_id() {
+    public int getTripId() {
         return trip_id;
     }
 

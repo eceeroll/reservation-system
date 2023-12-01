@@ -4,18 +4,18 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 public class CompanyPanel extends JFrame {
     private ArrayList<Vehicle> aracListesi;
+    private ArrayList<Trip> seferListesi;
     private Company loggedInCompany;
 
     public CompanyPanel(Company loggedInCompany) {
 
-        System.out.println(loggedInCompany.getName());
+        System.out.println("Giriş yapılan firma:" + loggedInCompany.getName());
 
         aracListesi = new ArrayList<>();
+
         setTitle("Firma Paneli");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -35,6 +35,9 @@ public class CompanyPanel extends JFrame {
 
         JButton seferOlusturButton = new JButton("Yeni Sefer Oluştur");
         panel.add(seferOlusturButton);
+
+        JButton seferListeleButton = new JButton("Seferleri Listele");
+        panel.add(seferListeleButton);
 
         aracEkleButton.addActionListener(new ActionListener() {
             @Override
@@ -69,7 +72,12 @@ public class CompanyPanel extends JFrame {
                 showSeferOlusturForm(loggedInCompany);
             }
         });
-
+        seferListeleButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showSeferListeleForm(loggedInCompany);
+            }
+        });
         add(panel);
     }
 
@@ -178,7 +186,6 @@ public class CompanyPanel extends JFrame {
         aracListeleFrame.add(panel);
         aracListeleFrame.setVisible(true);
     }
-
     private void showSeferOlusturForm(Company company){
         JFrame seferOlusturFrame = new JFrame("Sefer Oluştur");
         seferOlusturFrame.setSize(600, 400);
@@ -213,7 +220,7 @@ public class CompanyPanel extends JFrame {
         panel.add(daySelectionLabel);
         panel.add(daysComboBox);
 
-//        GÜZERGAH SEÇİMİ:
+        //  GÜZERGAH SEÇİMİ:
         ArrayList<Route> allRoutes = new ArrayList<>();
         allRoutes = Route.getAllRoutes();
 
@@ -235,9 +242,44 @@ public class CompanyPanel extends JFrame {
         seferOlusturKaydetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int tripDay = Integer.parseInt(daySelectionLabel.getText());
-//                Vehicle ı obje olarak al.
-//                Route ı obje olarak al.
+                String selectedVehicleName = (String) vehiclesComboBox.getSelectedItem();
+                int selectedDay = (int) daysComboBox.getSelectedItem();
+                String selectedRouteName = (String) routesComboBox.getSelectedItem();
+
+                // Vehicle ve Route objeleri
+                Vehicle selectedVehicle = findVehicleByName(selectedVehicleName, company);
+                Route selectedRoute = findRouteByName(selectedRouteName);
+
+                // Sefer objesi oluşturma işlemi:
+                int tripId = generateRandomId();
+                Trip newTrip = new Trip(tripId, company, selectedVehicle, selectedRoute, selectedDay, 0);
+
+                // Bilgileri gösteren bir mesaj oluşturuyoruz.
+                String message = "Sefer Bilgileri\n" +
+                        "------------------------\n" +
+                        "Sefer ID: " + newTrip.getTripId() + "\n" +
+                        "Firma: " + newTrip.getCompany().getName() + "\n" +
+                        "Araç: " + newTrip.getVehicle().getAracIsmi() + "\n" +
+                        "Güzergah: " + newTrip.getRoute().getRouteName() + "\n" +
+                        "Kalkış Günü: " + newTrip.getDepartureDate() + "\n" +
+                        "------------------------\n" +
+                        "Onaylıyor musunuz?";
+
+                int confirm = JOptionPane.showConfirmDialog(seferOlusturFrame, message, "Sefer Bilgileri Onay", JOptionPane.YES_NO_OPTION);
+
+                if (confirm == JOptionPane.YES_OPTION) {
+                    // Yeni seferi allTrips listesine ekle
+                    Trip.getAllTrips().add(newTrip);
+
+                    // Ve aynı zamanda, seferi oluşturan firmanın companyTrips listesine de ekle
+                    company.addTripToCompany(newTrip);
+
+                    // Bilgi mesajı göster
+                    JOptionPane.showMessageDialog(seferOlusturFrame, "Sefer başarıyla oluşturuldu!");
+
+                    // Pencereyi kapat
+                    seferOlusturFrame.dispose();
+                }
             }
         });
 
@@ -245,10 +287,53 @@ public class CompanyPanel extends JFrame {
         seferOlusturFrame.setVisible(true);
 
     }
+    private void showSeferListeleForm(Company company){
+        JFrame seferListeleFrame = new JFrame("Mevcut Seferler");
+        seferListeleFrame.setSize(600, 400);
+        seferListeleFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        seferListeleFrame.setLocationRelativeTo(this);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(3, 2));
+
+        String[] columnNames = {"Sefer ID", "Araç", "Güzergah", "Kalkış Tarihi"};
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+
+//        seferListesi.clear();
+
+//        şirkete ait seferleri alıyoruzç
+        seferListesi = company.getCompanyTrips();
+
+        for(Trip trip : seferListesi){
+            model.addRow(new Object[]{trip.getTripId(), trip.getVehicle().getAracIsmi(), trip.getRoute().getRouteName(), trip.getDepartureDate() + " Aralık 2023"});
+        }
+
+        JTable seferTable = new JTable(model);
+        JScrollPane  scrollPane = new JScrollPane(seferTable);
+        panel.add(scrollPane, BorderLayout.CENTER);
+
+        seferListeleFrame.add(panel);
+        seferListeleFrame.setVisible(true);
+    }
 
 //    İsme göre Vehicle ve Route objelerini bulan methodlar burda tanımla.
-
-//    Random ID üreten method tanımla.
-
-
+private Vehicle findVehicleByName(String vehicleName, Company company) {
+    for (Vehicle vehicle : company.getCompanyVehicles()) {
+        if (vehicle.getAracIsmi().equals(vehicleName)) {
+            return vehicle;
+        }
+    }
+    return null;
 }
+private Route findRouteByName(String routeName) {
+        for (Route route : Route.getAllRoutes()) {
+            if (route.getRouteName().equals(routeName)) {
+                return route;
+            }
+        }
+        return null; // Handle the case when the route is not found
+    }
+//    Random ID üreten method tanımla. ( sefer oluşturma işlemi için )
+private int generateRandomId() {
+    return (int) (Math.random() * 1000) + 1;
+}}

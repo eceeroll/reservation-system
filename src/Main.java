@@ -5,10 +5,6 @@ import java.util.HashMap;
 public class Main {
     public static void main(String[] args) {
 
-//        araç seçin -> Otobüs 1 otobü 2 diye selectler.
-//        tarih ve saat seçiniz.
-//        güzergah seçiniz. -> Demiryolu1 falan diye select ler olacak.
-
         TripPrices ulasim = new TripPrices();
         int istanbulKocaeliKarayolu = ulasim.getUcret(TransportationType.HAVAYOLU, Cities.ISTANBUL, Cities.KONYA);
 
