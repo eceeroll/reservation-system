@@ -16,7 +16,7 @@ public class Company extends User {
         this.companyVehicles = companyVehicles;
     }
 
-//    sefer ekleme methodu:
+    //  sefer ekleme methodu:
     public void addTripToCompany(Trip trip){
         companyTrips.add(trip);
     }

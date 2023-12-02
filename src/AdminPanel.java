@@ -19,7 +19,6 @@ public class AdminPanel extends JFrame{
     public ArrayList<Company> companyList;
 
 
-
     public AdminPanel(){
 
         setContentPane(flistele);
@@ -69,7 +68,6 @@ public class AdminPanel extends JFrame{
                     Company newCompany = new Company(companyName, companyName + "123", companyName, selectedVehicles, new ArrayList<Vehicle>());
 
                     companyList.add(newCompany);
-
 
                     tbModel.addRow(new Object[]{newCompany.getName(), newCompany.getVehicles()});
 

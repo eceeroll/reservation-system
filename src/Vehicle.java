@@ -2,11 +2,11 @@ public abstract class Vehicle {
 
     int aracNo;
     int koltukSayisi;
-    String yakitTuru;
+    FuelType yakitTuru;
     Company company;
     String aracIsmi;
 
-    public Vehicle(int aracNo, int koltukSayisi, String yakitTuru, Company company, String aracIsmi ){
+    public Vehicle(int aracNo, int koltukSayisi, FuelType yakitTuru, Company company, String aracIsmi ){
         this.aracNo = aracNo;
         this.koltukSayisi = koltukSayisi;
         this.yakitTuru = yakitTuru;
@@ -38,7 +38,7 @@ public abstract class Vehicle {
         this.koltukSayisi = koltukSayisi;
     }
 
-    public String getYakitTuru() {
+    public FuelType getYakitTuru() {
         return yakitTuru;
     }
 

@@ -5,6 +5,7 @@ import java.util.HashMap;
 public class Main {
     public static void main(String[] args) {
         // selam ben sema
+//        selam ben de ece
         TripPrices ulasim = new TripPrices();
         int istanbulKocaeliKarayolu = ulasim.getUcret(TransportationType.HAVAYOLU, Cities.ISTANBUL, Cities.KONYA);
 
@@ -37,5 +38,4 @@ public class Main {
                 loginPage.setVisible(true);
             }
         });
-    }
-}
+    }}

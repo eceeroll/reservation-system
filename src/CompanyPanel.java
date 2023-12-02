@@ -5,6 +5,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+
+
+// TODO:
+// Sefer listelerken İki kere yazdırma sorununu çöz.
+// Firma bilgilerini görüntüle arayüzünü yap.
+// Araç eklerken Tren otomatik Elektrik, Uçak otomatik Gaz olacak. Aksi halde uyarı yazdır.
+// Güzergah seçerken her araç uygun güzergah seçmelidir. Aksi takdirde, uyarı yazdır.
+// Araç ve Sefer silme işlevlerini ekle. +
+// Admin paneline Hizmet belirleme ekle. +
+// Firma oluştururken şifreniz: diye mesaj gösterir.
+// Yakıt Türü ve Araç Türü için enum oluştur.
+
 public class CompanyPanel extends JFrame {
     private ArrayList<Vehicle> aracListesi;
     private ArrayList<Trip> seferListesi;
@@ -102,7 +114,7 @@ public class CompanyPanel extends JFrame {
         JComboBox<String> aracTurComboBox = new JComboBox<>(aracTurOptions);
 
         JLabel yakitTuruLabel = new JLabel("Yakıt Türü");
-        String[] yakitTuruOptions = {"Benzin", "Motorin", "Elektrik","Gaz"};
+        String[] yakitTuruOptions = {FuelType.BENZIN.toString(), FuelType.MOTORIN.toString(), FuelType.ELEKTRIK.toString(), FuelType.GAZ.toString()};
 
         JComboBox<String> yakitTuruComboBox = new JComboBox<>(yakitTuruOptions);
 
@@ -127,7 +139,7 @@ public class CompanyPanel extends JFrame {
                     int aracNo = Integer.parseInt(aracNoField.getText());
                     int koltukSayisi = Integer.parseInt(koltukSayisiField.getText());
                     String aracTur = (String) aracTurComboBox.getSelectedItem();
-                    String yakitTur = (String) yakitTuruComboBox.getSelectedItem();
+                    FuelType yakitTur = FuelType.valueOf(((String) yakitTuruComboBox.getSelectedItem()).toUpperCase());
 
                     Vehicle yeniArac = null;
                     switch (aracTur) {
@@ -316,7 +328,7 @@ public class CompanyPanel extends JFrame {
         seferListeleFrame.setVisible(true);
     }
 
-//    İsme göre Vehicle ve Route objelerini bulan methodlar burda tanımla.
+// İsme göre Vehicle ve Route objelerini bulan methodlar burda tanımla.
 private Vehicle findVehicleByName(String vehicleName, Company company) {
     for (Vehicle vehicle : company.getCompanyVehicles()) {
         if (vehicle.getAracIsmi().equals(vehicleName)) {
