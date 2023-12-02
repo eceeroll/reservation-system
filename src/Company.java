@@ -3,16 +3,16 @@ import java.util.ArrayList;
 public class Company extends User {
 
     private String companyName;
-    private ArrayList<String> vehicles;
+    private ArrayList<VehicleType> vehicleTypes;
     private ArrayList<Vehicle> companyVehicles;
 
     //  şirkete ait seferleri tutan bir arraylist oluşturuyoruz.
     private ArrayList<Trip> companyTrips = new ArrayList<>();
 
-    public Company(String username, String password, String companyName, ArrayList<String> vehicles, ArrayList<Vehicle> companyVehicles) {
+    public Company(String username, String password, String companyName, ArrayList<VehicleType> vehicleTypes, ArrayList<Vehicle> companyVehicles) {
         super(username, password);
         this.companyName = companyName;
-        this.vehicles = vehicles;
+        this.vehicleTypes = vehicleTypes;
         this.companyVehicles = companyVehicles;
     }
 
@@ -23,8 +23,8 @@ public class Company extends User {
     public String getName() {
         return companyName;
     }
-    public ArrayList<String> getVehicles() {
-        return vehicles;
+    public ArrayList<VehicleType> getVehicles() {
+        return vehicleTypes;
     }
     public ArrayList<Vehicle> getCompanyVehicles(){
         return companyVehicles;

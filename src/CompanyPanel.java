@@ -5,17 +5,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-
-
 // TODO:
 // Sefer listelerken İki kere yazdırma sorununu çöz.
-// Firma bilgilerini görüntüle arayüzünü yap.
 // Araç eklerken Tren otomatik Elektrik, Uçak otomatik Gaz olacak. Aksi halde uyarı yazdır.
 // Güzergah seçerken her araç uygun güzergah seçmelidir. Aksi takdirde, uyarı yazdır.
-// Araç ve Sefer silme işlevlerini ekle. +
-// Admin paneline Hizmet belirleme ekle. +
-// Firma oluştururken şifreniz: diye mesaj gösterir.
-// Yakıt Türü ve Araç Türü için enum oluştur.
+// Araç ve Sefer silme işlevlerini ekle.
 
 public class CompanyPanel extends JFrame {
     private ArrayList<Vehicle> aracListesi;
@@ -66,16 +60,7 @@ public class CompanyPanel extends JFrame {
         firmaBilgileriGoruntuleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Firma Bilgileri: ");
-                System.out.println("Firma Adı: " + loggedInCompany.getName());
-                System.out.println("Firmanın Kullandığı Araç Türleri:");
-                for(Vehicle vehicle : loggedInCompany.getCompanyVehicles()){
-                    System.out.println(vehicle.getClass().getSimpleName());
-                }
-                System.out.println("Firmaya Ait Araçlar:");
-                for(Vehicle vehicle : loggedInCompany.getCompanyVehicles()){
-                    System.out.println(vehicle.getAracIsmi());
-                }
+                showFirmaBilgileriGoruntule(loggedInCompany);
             }
         });
         seferOlusturButton.addActionListener(new ActionListener() {
@@ -93,6 +78,21 @@ public class CompanyPanel extends JFrame {
         add(panel);
     }
 
+    private void showFirmaBilgileriGoruntule(Company company) {
+        StringBuilder firmInfo = new StringBuilder();
+        firmInfo.append("Firma Bilgileri:\n");
+        firmInfo.append("Firma Adı: ").append(company.getName()).append("\n");
+        firmInfo.append("Firmanın Kullandığı Araç Türleri:\n");
+        for (Vehicle vehicle : company.getCompanyVehicles()) {
+            firmInfo.append(vehicle.getClass().getSimpleName()).append("\n");
+        }
+        firmInfo.append("Firmaya Ait Araçlar:\n");
+        for (Vehicle vehicle : company.getCompanyVehicles()) {
+            firmInfo.append(vehicle.getAracIsmi()).append("\n");
+        }
+
+        JOptionPane.showMessageDialog(this, firmInfo.toString(), "Firma Bilgileri", JOptionPane.INFORMATION_MESSAGE);
+    }
     private void showAracEkleForm(Company company) {
         JFrame aracEkleFrame = new JFrame("Araç Ekle");
         aracEkleFrame.setSize(300, 200);
@@ -194,6 +194,12 @@ public class CompanyPanel extends JFrame {
         JTable aracTable = new JTable(model);
         JScrollPane  scrollPane = new JScrollPane(aracTable);
         panel.add(scrollPane, BorderLayout.CENTER);
+
+        JButton deleteButton = new JButton("Sil");
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(deleteButton);
+        panel.add(buttonPanel, BorderLayout.SOUTH);
 
         aracListeleFrame.add(panel);
         aracListeleFrame.setVisible(true);

@@ -8,9 +8,9 @@ public class IDAndPasswords {
 
     IDAndPasswords(){
 
-        ArrayList<String> vehiclesCompanyA = new ArrayList<>();
+        ArrayList<VehicleType> vehiclesCompanyA = new ArrayList<>();
         // Add elements to the ArrayList
-        vehiclesCompanyA.add("Tren");
+        vehiclesCompanyA.add(VehicleType.OTOBUS);
 
         //    Admin Info:
         Admin admin = new Admin("ece", "ece0104");

@@ -18,12 +18,11 @@ public class AdminPanel extends JFrame{
     private JLabel tasitlar;
     public ArrayList<Company> companyList;
 
-
     public AdminPanel(){
 
         setContentPane(flistele);
         setSize(400,300);
-        setTitle("Listeleme sayfasi");
+        setTitle("Admin Paneli");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
 
@@ -35,7 +34,6 @@ public class AdminPanel extends JFrame{
         IDAndPasswords idAndPasswords = new IDAndPasswords(); // Create an instance of the IDAndPasswords class
         companyList = idAndPasswords.getCompanies(); // Get the ArrayList of Company objects
 
-
         for (Company company : companyList) {
             tbModel.addRow(new Object[]{company.getName(), company.getVehicles()});
         }
@@ -45,9 +43,7 @@ public class AdminPanel extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 String companyName = firmaAdi.getText();
-                ArrayList<String> selectedVehicles = new ArrayList<>();
-
-
+                ArrayList<VehicleType> selectedVehicleTypes = new ArrayList<>();
 
                 if(companyName.equals("") || !otobus.isSelected() && !ucak.isSelected() && !tren.isSelected()){
                     JOptionPane.showMessageDialog(flistele, "Ilgili alanlari dogru bir sekilde doldurunuz!!!");
@@ -56,16 +52,16 @@ public class AdminPanel extends JFrame{
 
 
                     if (otobus.isSelected()) {
-                        selectedVehicles.add("Otobüs");
+                        selectedVehicleTypes.add(VehicleType.OTOBUS);
                     }
                     if (tren.isSelected()) {
-                        selectedVehicles.add("Tren");
+                        selectedVehicleTypes.add(VehicleType.TREN);
                     }
                     if (ucak.isSelected()) {
-                        selectedVehicles.add("Uçak");
+                        selectedVehicleTypes.add(VehicleType.UCAK);
                     }
                     companyName = firmaAdi.getText();
-                    Company newCompany = new Company(companyName, companyName + "123", companyName, selectedVehicles, new ArrayList<Vehicle>());
+                    Company newCompany = new Company(companyName, companyName + "123", companyName, selectedVehicleTypes, new ArrayList<Vehicle>());
 
                     companyList.add(newCompany);
 
