@@ -15,6 +15,7 @@ public class LoginPage extends JFrame {
     private JButton loginButton;
     private JPanel panel1;
     private JLabel messageLabel;
+    private JButton biletAra;
 
     private HashMap<String, String> loginInfo;
     private ArrayList<Company> companyList;
@@ -65,6 +66,12 @@ public class LoginPage extends JFrame {
                         }
                     }
                 }
+            }
+        });
+        biletAra.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(panel1, "bilet alma sayfasina hosgeldiniz!");
             }
         });
     }

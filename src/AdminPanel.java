@@ -16,7 +16,13 @@ public class AdminPanel extends JFrame{
     private JButton ekleButon;
     private JLabel fAdi;
     private JLabel tasitlar;
+    private JTextField hText;
+    private JButton onay;
+    private JLabel hBedeli;
+    private JButton cikis;
     public ArrayList<Company> companyList;
+    public int HIZMET_BEDELI;
+
 
     public AdminPanel(){
 
@@ -63,6 +69,7 @@ public class AdminPanel extends JFrame{
                     companyName = firmaAdi.getText();
                     Company newCompany = new Company(companyName, companyName + "123", companyName, selectedVehicleTypes, new ArrayList<Vehicle>());
                     companyList.add(newCompany);
+                    idAndPasswords.loginInfo.put(newCompany.getUsername(),newCompany.password);
 
                     System.out.println("username: "+ newCompany.getUsername() + "password: " + newCompany.getPassword());
 
@@ -72,6 +79,7 @@ public class AdminPanel extends JFrame{
                     otobus.setSelected(false);
                     tren.setSelected(false);
                     ucak.setSelected(false);
+                    JOptionPane.showMessageDialog(null,"Firma basariyla olusturldu.Firma sifresi: "+newCompany.getPassword());
 
 
                 }
@@ -93,6 +101,23 @@ public class AdminPanel extends JFrame{
                 }
             }
 
+        });
+        onay.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                HIZMET_BEDELI=Integer.parseInt(hText.getText());
+                hText.setText("");
+                System.out.println(HIZMET_BEDELI);
+            }
+        });
+        cikis.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                LoginPage loginPage = new LoginPage(idAndPasswords.loginInfo,companyList);
+                loginPage.setVisible(true);
+                setVisible(false);
+            }
         });
     }
 }

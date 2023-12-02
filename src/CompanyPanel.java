@@ -9,6 +9,7 @@ import java.util.ArrayList;
 // Araç eklerken Tren otomatik Elektrik, Uçak otomatik Gaz olacak. Aksi halde uyarı yazdır.
 // Güzergah seçerken her araç uygun güzergah seçmelidir. Aksi takdirde, uyarı yazdır.
 // Araç ve sefer silme işlemlerini kontrol et. ( arrayList ten siliyor mu? )
+// seni seviyorum ece<3
 
 public class CompanyPanel extends JFrame {
     private ArrayList<Vehicle> aracListesi;
