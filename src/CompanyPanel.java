@@ -204,6 +204,24 @@ public class CompanyPanel extends JFrame {
         buttonPanel.add(deleteButton);
         panel.add(buttonPanel, BorderLayout.SOUTH);
 
+
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(aracTable.getSelectedColumnCount()==1){
+                    aracListesi.remove(aracTable.getSelectedRow());
+                    model.removeRow(aracTable.getSelectedRow());
+
+                }else{
+                    if(aracTable.getRowCount()==0){
+                        JOptionPane.showMessageDialog(null,"silinecek firma yok");
+                    }else{
+                        JOptionPane.showMessageDialog(null,"Lutfen tek bir satir seciniz.");
+                    }
+                }
+            }
+        });
+
         aracListeleFrame.add(panel);
         aracListeleFrame.setVisible(true);
     }
@@ -335,6 +353,31 @@ public class CompanyPanel extends JFrame {
         JTable seferTable = new JTable(model);
         JScrollPane  scrollPane = new JScrollPane(seferTable);
         panel.add(scrollPane, BorderLayout.CENTER);
+
+        JButton deleteButton = new JButton("Sil");
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(deleteButton);
+        panel.add(buttonPanel, BorderLayout.SOUTH);
+
+        //silme islemi---------------------------------------------------------
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(seferTable.getSelectedColumnCount()==1){
+                    aracListesi.remove(seferTable.getSelectedRow());
+                    model.removeRow(seferTable.getSelectedRow());
+
+                }else{
+                    if(seferTable.getRowCount()==0){
+                        JOptionPane.showMessageDialog(null,"silinecek firma yok");
+                    }else{
+                        JOptionPane.showMessageDialog(null,"Lutfen tek bir satir seciniz.");
+                    }
+                }
+            }
+        });
+
 
         seferListeleFrame.add(panel);
         seferListeleFrame.setVisible(true);
