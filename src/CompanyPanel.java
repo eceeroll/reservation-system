@@ -6,14 +6,13 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 // TODO:
-// Sefer listelerken İki kere yazdırma sorununu çöz.
 // Araç eklerken Tren otomatik Elektrik, Uçak otomatik Gaz olacak. Aksi halde uyarı yazdır.
 // Güzergah seçerken her araç uygun güzergah seçmelidir. Aksi takdirde, uyarı yazdır.
-// Araç ve Sefer silme işlevlerini ekle.
+// Araç ve sefer silme işlemlerini kontrol et. ( arrayList ten siliyor mu? )
 
 public class CompanyPanel extends JFrame {
     private ArrayList<Vehicle> aracListesi;
-    private ArrayList<Trip> seferListesi;
+    //    private ArrayList<Trip> seferListesi;
     private Company loggedInCompany;
 
     public CompanyPanel(Company loggedInCompany) {
@@ -45,6 +44,8 @@ public class CompanyPanel extends JFrame {
         JButton seferListeleButton = new JButton("Seferleri Listele");
         panel.add(seferListeleButton);
 
+//        çıkış yap butonu ekle.
+
         aracEkleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -75,6 +76,7 @@ public class CompanyPanel extends JFrame {
                 showSeferListeleForm(loggedInCompany);
             }
         });
+
         add(panel);
     }
 
@@ -270,32 +272,32 @@ public class CompanyPanel extends JFrame {
 
                 // Sefer objesi oluşturma işlemi:
                 int tripId = generateRandomId();
-                Trip newTrip = new Trip(tripId, company, selectedVehicle, selectedRoute, selectedDay, 0);
 
                 // Bilgileri gösteren bir mesaj oluşturuyoruz.
                 String message = "Sefer Bilgileri\n" +
                         "------------------------\n" +
-                        "Sefer ID: " + newTrip.getTripId() + "\n" +
-                        "Firma: " + newTrip.getCompany().getName() + "\n" +
-                        "Araç: " + newTrip.getVehicle().getAracIsmi() + "\n" +
-                        "Güzergah: " + newTrip.getRoute().getRouteName() + "\n" +
-                        "Kalkış Günü: " + newTrip.getDepartureDate() + "\n" +
+                        "Sefer ID: " + tripId + "\n" +
+                        "Firma: " + company.getName() + "\n" +
+                        "Araç: " + selectedVehicle.getAracIsmi() + "\n" +
+                        "Güzergah: " + selectedRoute.getRouteName() + "\n" +
+                        "Kalkış Günü: " + selectedDay + "\n" +
                         "------------------------\n" +
                         "Onaylıyor musunuz?";
 
                 int confirm = JOptionPane.showConfirmDialog(seferOlusturFrame, message, "Sefer Bilgileri Onay", JOptionPane.YES_NO_OPTION);
 
                 if (confirm == JOptionPane.YES_OPTION) {
-                    // Yeni seferi allTrips listesine ekle
-                    Trip.getAllTrips().add(newTrip);
+                    Trip newTrip = new Trip(tripId, company, selectedVehicle, selectedRoute, selectedDay, 0);
 
-                    // Ve aynı zamanda, seferi oluşturan firmanın companyTrips listesine de ekle
-                    company.addTripToCompany(newTrip);
+                    // Seferi oluşturan firmanın companyTrips listesine de ekle
+//                    company.addTripToCompany(newTrip);
 
-                    // Bilgi mesajı göster
+                    Trip.addTripToAllTrips(newTrip);
+                    System.out.println("Ekleme işlemi başarılı!");
+                    System.out.println("Bütün seferler " + Trip.getAllTrips().size());
+                    System.out.println("Firma seferleri " +company.getCompanyTrips().size());
+
                     JOptionPane.showMessageDialog(seferOlusturFrame, "Sefer başarıyla oluşturuldu!");
-
-                    // Pencereyi kapat
                     seferOlusturFrame.dispose();
                 }
             }
@@ -305,6 +307,7 @@ public class CompanyPanel extends JFrame {
         seferOlusturFrame.setVisible(true);
 
     }
+
     private void showSeferListeleForm(Company company){
         JFrame seferListeleFrame = new JFrame("Mevcut Seferler");
         seferListeleFrame.setSize(600, 400);
@@ -320,9 +323,11 @@ public class CompanyPanel extends JFrame {
 //        seferListesi.clear();
 
 //        şirkete ait seferleri alıyoruzç
+        ArrayList<Trip> seferListesi;
         seferListesi = company.getCompanyTrips();
 
         for(Trip trip : seferListesi){
+            System.out.println(trip.getTripId());
             model.addRow(new Object[]{trip.getTripId(), trip.getVehicle().getAracIsmi(), trip.getRoute().getRouteName(), trip.getDepartureDate() + " Aralık 2023"});
         }
 
@@ -334,16 +339,16 @@ public class CompanyPanel extends JFrame {
         seferListeleFrame.setVisible(true);
     }
 
-// İsme göre Vehicle ve Route objelerini bulan methodlar burda tanımla.
-private Vehicle findVehicleByName(String vehicleName, Company company) {
-    for (Vehicle vehicle : company.getCompanyVehicles()) {
-        if (vehicle.getAracIsmi().equals(vehicleName)) {
-            return vehicle;
+    // İsme göre Vehicle ve Route objelerini bulan methodlar burda tanımla.
+    private Vehicle findVehicleByName(String vehicleName, Company company) {
+        for (Vehicle vehicle : company.getCompanyVehicles()) {
+            if (vehicle.getAracIsmi().equals(vehicleName)) {
+                return vehicle;
+            }
         }
+        return null;
     }
-    return null;
-}
-private Route findRouteByName(String routeName) {
+    private Route findRouteByName(String routeName) {
         for (Route route : Route.getAllRoutes()) {
             if (route.getRouteName().equals(routeName)) {
                 return route;
@@ -351,7 +356,7 @@ private Route findRouteByName(String routeName) {
         }
         return null; // Handle the case when the route is not found
     }
-//    Random ID üreten method tanımla. ( sefer oluşturma işlemi için )
-private int generateRandomId() {
-    return (int) (Math.random() * 1000) + 1;
-}}
+    //    Random ID üreten method tanımla. ( sefer oluşturma işlemi için )
+    private int generateRandomId() {
+        return (int) (Math.random() * 1000) + 1;
+    }}

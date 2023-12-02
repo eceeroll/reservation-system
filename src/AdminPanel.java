@@ -62,8 +62,9 @@ public class AdminPanel extends JFrame{
                     }
                     companyName = firmaAdi.getText();
                     Company newCompany = new Company(companyName, companyName + "123", companyName, selectedVehicleTypes, new ArrayList<Vehicle>());
-
                     companyList.add(newCompany);
+
+                    System.out.println("username: "+ newCompany.getUsername() + "password: " + newCompany.getPassword());
 
                     tbModel.addRow(new Object[]{newCompany.getName(), newCompany.getVehicles()});
 

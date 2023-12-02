@@ -9,9 +9,9 @@ public class Main {
         TripPrices ulasim = new TripPrices();
         int istanbulKocaeliKarayolu = ulasim.getUcret(TransportationType.HAVAYOLU, Cities.ISTANBUL, Cities.KONYA);
 
-        if (istanbulKocaeliKarayolu != -1) {
-            System.out.println("Ulaşım Ücreti: " + istanbulKocaeliKarayolu);
-        }
+//        if (istanbulKocaeliKarayolu != -1) {
+//            System.out.println("Ulaşım Ücreti: " + istanbulKocaeliKarayolu);
+//        }
 
         IDAndPasswords idAndPasswords = new IDAndPasswords();
         ArrayList<Company> companyList = idAndPasswords.getCompanies();

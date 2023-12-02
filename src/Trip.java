@@ -22,13 +22,14 @@ private static ArrayList<Trip> allTrips = new ArrayList<>();
         this.departureDate = departureDate;
         this.price = price;
 
-        // Her yeni sefer oluşturulduğunda, allTrips listesine eklenir
-        allTrips.add(this);
-
         // Ve aynı zamanda, seferi oluşturan firmanın companyTrips listesine de eklenir
         if (company != null) {
             company.addTripToCompany(this);
         }
+    }
+
+    public static void addTripToAllTrips(Trip trip) {
+        allTrips.add(trip);
     }
 
     public static ArrayList<Trip> getAllTrips() {
