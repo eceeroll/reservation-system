@@ -6,10 +6,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 // TODO:
-// Araç eklerken Tren otomatik Elektrik, Uçak otomatik Gaz olacak. Aksi halde uyarı yazdır.
-// Güzergah seçerken her araç uygun güzergah seçmelidir. Aksi takdirde, uyarı yazdır.
 // Araç ve sefer silme işlemlerini kontrol et. ( arrayList ten siliyor mu? )
-// seni seviyorum ece<3
 
 public class CompanyPanel extends JFrame {
     private ArrayList<Vehicle> aracListesi;
@@ -20,7 +17,7 @@ public class CompanyPanel extends JFrame {
 
         System.out.println("Giriş yapılan firma:" + loggedInCompany.getName());
 
-        aracListesi = new ArrayList<>();
+        aracListesi = loggedInCompany.getCompanyVehicles();
 
         setTitle("Firma Paneli");
         setSize(400, 300);
@@ -159,11 +156,18 @@ public class CompanyPanel extends JFrame {
                             break;
                     }
                     if (yeniArac != null) {
-                        aracListesi.add(yeniArac);
-//                      // Add the new vehicle to the company's vehicle list
-                        company.getCompanyVehicles().add(yeniArac);
-                        System.out.println("Added vehicle to company: " + company.getName());
-                        JOptionPane.showMessageDialog(aracEkleFrame, "Araç başarıyla eklendi!");
+                        if(yeniArac.getClass().getSimpleName() == "Airplane" && yeniArac.getYakitTuru() == FuelType.GAZ){
+                            aracListesi.add(yeniArac);
+                            JOptionPane.showMessageDialog(aracEkleFrame, "Araç başarıyla eklendi!");
+                        } else if(yeniArac.getClass().getSimpleName() == "Train" && yeniArac.getYakitTuru() == FuelType.ELEKTRIK){
+                            aracListesi.add(yeniArac);
+                            JOptionPane.showMessageDialog(aracEkleFrame, "Araç başarıyla eklendi!");
+                        } else if(yeniArac.getClass().getSimpleName() == "Bus" && yeniArac.getYakitTuru() == FuelType.BENZIN || yeniArac.getYakitTuru() == FuelType.MOTORIN){
+                            aracListesi.add(yeniArac);
+                            JOptionPane.showMessageDialog(aracEkleFrame, "Araç başarıyla eklendi!");
+                        } else {
+                            JOptionPane.showMessageDialog(aracEkleFrame, "Hatalı Yakıt türü seçimi yaptınız! Lütfen kontrol ediniz.");
+                        }
                     } else {
                         JOptionPane.showMessageDialog(aracEkleFrame, "Geçersiz araç türü!");
                     }
@@ -204,14 +208,14 @@ public class CompanyPanel extends JFrame {
         buttonPanel.add(deleteButton);
         panel.add(buttonPanel, BorderLayout.SOUTH);
 
-
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(aracTable.getSelectedColumnCount()==1){
+                    System.out.println("Array list boyutu:" + aracListesi.size());
+                    System.out.println("Seçili satır indeksi:" + aracTable.getSelectedRow());
                     aracListesi.remove(aracTable.getSelectedRow());
                     model.removeRow(aracTable.getSelectedRow());
-
                 }else{
                     if(aracTable.getRowCount()==0){
                         JOptionPane.showMessageDialog(null,"silinecek firma yok");
@@ -289,35 +293,33 @@ public class CompanyPanel extends JFrame {
                 Vehicle selectedVehicle = findVehicleByName(selectedVehicleName, company);
                 Route selectedRoute = findRouteByName(selectedRouteName);
 
-                // Sefer objesi oluşturma işlemi:
-                int tripId = generateRandomId();
+                // Check if the selected combination is valid
+                if (isValidCombination(selectedVehicle, selectedRoute)) {
+                    int tripId = generateRandomId();
 
-                // Bilgileri gösteren bir mesaj oluşturuyoruz.
-                String message = "Sefer Bilgileri\n" +
-                        "------------------------\n" +
-                        "Sefer ID: " + tripId + "\n" +
-                        "Firma: " + company.getName() + "\n" +
-                        "Araç: " + selectedVehicle.getAracIsmi() + "\n" +
-                        "Güzergah: " + selectedRoute.getRouteName() + "\n" +
-                        "Kalkış Günü: " + selectedDay + "\n" +
-                        "------------------------\n" +
-                        "Onaylıyor musunuz?";
+                    // Bilgileri gösteren bir mesaj oluşturuyoruz.
+                    String message = "Sefer Bilgileri\n" +
+                            "------------------------\n" +
+                            "Sefer ID: " + tripId + "\n" +
+                            "Firma: " + company.getName() + "\n" +
+                            "Araç: " + selectedVehicle.getAracIsmi() + "\n" +
+                            "Güzergah: " + selectedRoute.getRouteName() + "\n" +
+                            "Kalkış Günü: " + selectedDay + "\n" +
+                            "------------------------\n" +
+                            "Onaylıyor musunuz?";
 
-                int confirm = JOptionPane.showConfirmDialog(seferOlusturFrame, message, "Sefer Bilgileri Onay", JOptionPane.YES_NO_OPTION);
+                    // Display confirmation dialog
+                    int confirm = JOptionPane.showConfirmDialog(seferOlusturFrame, message, "Sefer Bilgileri Onay", JOptionPane.YES_NO_OPTION);
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        Trip newTrip = new Trip(tripId, company, selectedVehicle, selectedRoute, selectedDay, 0);
+                        Trip.addTripToAllTrips(newTrip);
 
-                if (confirm == JOptionPane.YES_OPTION) {
-                    Trip newTrip = new Trip(tripId, company, selectedVehicle, selectedRoute, selectedDay, 0);
-
-                    // Seferi oluşturan firmanın companyTrips listesine de ekle
-//                    company.addTripToCompany(newTrip);
-
-                    Trip.addTripToAllTrips(newTrip);
-                    System.out.println("Ekleme işlemi başarılı!");
-                    System.out.println("Bütün seferler " + Trip.getAllTrips().size());
-                    System.out.println("Firma seferleri " +company.getCompanyTrips().size());
-
-                    JOptionPane.showMessageDialog(seferOlusturFrame, "Sefer başarıyla oluşturuldu!");
-                    seferOlusturFrame.dispose();
+                        System.out.println("Ekleme işlemi başarılı!");
+                        JOptionPane.showMessageDialog(seferOlusturFrame, "Sefer başarıyla oluşturuldu!");
+                        seferOlusturFrame.dispose();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(seferOlusturFrame, "Seçilen araç ve güzergah uyumsuz! Lütfen kontrol ediniz.");
                 }
             }
         });
@@ -326,7 +328,6 @@ public class CompanyPanel extends JFrame {
         seferOlusturFrame.setVisible(true);
 
     }
-
     private void showSeferListeleForm(Company company){
         JFrame seferListeleFrame = new JFrame("Mevcut Seferler");
         seferListeleFrame.setSize(600, 400);
@@ -338,8 +339,6 @@ public class CompanyPanel extends JFrame {
 
         String[] columnNames = {"Sefer ID", "Araç", "Güzergah", "Kalkış Tarihi"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
-
-//        seferListesi.clear();
 
 //        şirkete ait seferleri alıyoruzç
         ArrayList<Trip> seferListesi;
@@ -365,9 +364,8 @@ public class CompanyPanel extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(seferTable.getSelectedColumnCount()==1){
-                    aracListesi.remove(seferTable.getSelectedRow());
+                    seferListesi.remove(seferTable.getSelectedRow());
                     model.removeRow(seferTable.getSelectedRow());
-
                 }else{
                     if(seferTable.getRowCount()==0){
                         JOptionPane.showMessageDialog(null,"silinecek firma yok");
@@ -377,7 +375,6 @@ public class CompanyPanel extends JFrame {
                 }
             }
         });
-
 
         seferListeleFrame.add(panel);
         seferListeleFrame.setVisible(true);
@@ -403,4 +400,20 @@ public class CompanyPanel extends JFrame {
     //    Random ID üreten method tanımla. ( sefer oluşturma işlemi için )
     private int generateRandomId() {
         return (int) (Math.random() * 1000) + 1;
-    }}
+    }
+
+    // Method to check if the selected combination of vehicle and route is valid
+    private boolean isValidCombination(Vehicle vehicle, Route route) {
+        if (vehicle != null && route != null) {
+            if ((vehicle instanceof Airplane && route.getYolTuru() == TransportationType.HAVAYOLU) ||
+                    (vehicle instanceof Bus && route.getYolTuru() == TransportationType.KARAYOLU) ||
+                    (vehicle instanceof Train && route.getYolTuru() == TransportationType.DEMIRYOLU)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+}
+

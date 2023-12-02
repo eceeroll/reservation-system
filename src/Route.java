@@ -64,6 +64,10 @@ public class Route {
         return arrivalCity;
     }
 
+    public TransportationType getYolTuru(){
+        return yolTuru;
+    }
+
     public static ArrayList<Route> getAllRoutes(){
         return allRoutes;
     }
