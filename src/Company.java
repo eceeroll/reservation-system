@@ -17,6 +17,13 @@ public class Company extends User {
     }
 
     //  sefer ekleme methodu:
+    public void addVehicleToCompany(Vehicle vehicle){
+        if (companyVehicles == null) {
+            companyVehicles = new ArrayList<>();
+        }
+        companyVehicles.add(vehicle);
+    }
+
     public void addTripToCompany(Trip trip){
         companyTrips.add(trip);
     }
