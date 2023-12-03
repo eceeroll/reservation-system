@@ -71,13 +71,10 @@ public class LoginPage extends JFrame {
         biletAra.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(panel1, "bilet alma sayfasina hosgeldiniz!");
-            }
-        });
-        biletAra.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
+                CustomerPanel customerPanel = new CustomerPanel();
+                customerPanel.setVisible(true);
+        //  LoginPage in görünürlüğünü kapatıyoruz.
+                setVisible(false);
             }
         });
     }

@@ -28,6 +28,7 @@ private static ArrayList<Trip> allTrips = new ArrayList<>();
         }
     }
 
+//    Yeni sefer oluşturulduğunda, bütün seferleri tutan Arraylist e ekler.
     public static void addTripToAllTrips(Trip trip) {
         allTrips.add(trip);
     }
@@ -37,7 +38,6 @@ private static ArrayList<Trip> allTrips = new ArrayList<>();
     }
 
 //    Getters and Setters
-
     public int getTripId() {
         return trip_id;
     }
@@ -84,5 +84,9 @@ private static ArrayList<Trip> allTrips = new ArrayList<>();
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public int getTravelDate() {
+        return departureDate;
     }
 }

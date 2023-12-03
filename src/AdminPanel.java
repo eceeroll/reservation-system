@@ -23,9 +23,7 @@ public class AdminPanel extends JFrame{
     public ArrayList<Company> companyList;
     public int HIZMET_BEDELI;
 
-
     public AdminPanel(){
-
         setContentPane(flistele);
         setSize(600,300);
         setTitle("Admin Paneli");
@@ -37,13 +35,12 @@ public class AdminPanel extends JFrame{
         String[] sutunlar={"Firma Adi", "Arac Turu"};
         tbModel.addRow(sutunlar);
 
-        IDAndPasswords idAndPasswords = new IDAndPasswords(); // Create an instance of the IDAndPasswords class
-        companyList = idAndPasswords.getCompanies(); // Get the ArrayList of Company objects
+        IDAndPasswords idAndPasswords = new IDAndPasswords();
+        companyList = idAndPasswords.getCompanies();
 
         for (Company company : companyList) {
             tbModel.addRow(new Object[]{company.getName(), company.getVehicles()});
         }
-
 
         ekleButon.addActionListener(new ActionListener() {
             @Override
@@ -55,7 +52,6 @@ public class AdminPanel extends JFrame{
                     JOptionPane.showMessageDialog(flistele, "Ilgili alanlari dogru bir sekilde doldurunuz!!!");
 
                 } else {
-
 
                     if (otobus.isSelected()) {
                         selectedVehicleTypes.add(VehicleType.OTOBUS);
@@ -80,11 +76,10 @@ public class AdminPanel extends JFrame{
                     tren.setSelected(false);
                     ucak.setSelected(false);
                     JOptionPane.showMessageDialog(null,"Firma basariyla olusturldu.Firma sifresi: "+newCompany.getPassword());
-
-
                 }
             }
         });
+
         sil.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -110,10 +105,10 @@ public class AdminPanel extends JFrame{
                 System.out.println(HIZMET_BEDELI);
             }
         });
+
         cikis.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 LoginPage loginPage = new LoginPage(idAndPasswords.loginInfo,companyList);
                 loginPage.setVisible(true);
                 setVisible(false);

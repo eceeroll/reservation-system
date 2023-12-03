@@ -3,7 +3,7 @@ import java.util.Map;
 
 public class TripPrices {
 
-    private Map<TransportationType, Map<Cities, Map<Cities, Integer>>> ulasimTablosu;
+    private static Map<TransportationType, Map<Cities, Map<Cities, Integer>>> ulasimTablosu;
 
     public TripPrices() {
         ulasimTablosu = new HashMap<>();
@@ -36,7 +36,7 @@ public class TripPrices {
         ulasimTablosu.put(TransportationType.HAVAYOLU, havayolu);
     }
 
-    public int getUcret(TransportationType yolTipi, Cities kalkisSehir, Cities varisSehir) {
+    public static int getUcret(TransportationType yolTipi, Cities kalkisSehir, Cities varisSehir) {
         try {
             return ulasimTablosu.get(yolTipi).get(kalkisSehir).get(varisSehir);
         } catch (NullPointerException | IllegalArgumentException e) {

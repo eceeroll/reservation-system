@@ -56,6 +56,10 @@ public class Route {
         return routeName;
     }
 
+    public Cities[] getStations(){
+        return stations;
+    }
+
     public Cities getDepartureCity() {
         return departureCity;
     }
@@ -71,6 +75,7 @@ public class Route {
     public static ArrayList<Route> getAllRoutes(){
         return allRoutes;
     }
+
     public int getDistance() {
         return distance;
     }
