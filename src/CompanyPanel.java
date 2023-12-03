@@ -43,7 +43,19 @@ public class CompanyPanel extends JFrame {
         panel.add(seferListeleButton);
 
 //        çıkış yap butonu ekle.
+        JButton cikisButton = new JButton("Çıkış Yap");
+        panel.add(cikisButton);
 
+
+        cikisButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                IDAndPasswords idAndPasswords = new IDAndPasswords();
+                LoginPage loginPage = new LoginPage(idAndPasswords.loginInfo,idAndPasswords.getCompanies());
+                loginPage.setVisible(true);
+                setVisible(false);
+            }
+        });
         aracEkleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

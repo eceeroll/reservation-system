@@ -27,7 +27,7 @@ public class AdminPanel extends JFrame{
     public AdminPanel(){
 
         setContentPane(flistele);
-        setSize(400,300);
+        setSize(600,300);
         setTitle("Admin Paneli");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);

@@ -74,6 +74,12 @@ public class LoginPage extends JFrame {
                 JOptionPane.showMessageDialog(panel1, "bilet alma sayfasina hosgeldiniz!");
             }
         });
+        biletAra.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
     }
 
     // Giriş yapan kullanıcının ait olduğu şirketi belirle
